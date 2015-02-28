@@ -12,6 +12,7 @@
 
 #include <iostream>
 #include "ActorNode.hpp"
+#include "Movie.hpp"
 #include <unordered_map>
 
 // Maybe include some data structures here
@@ -41,6 +42,7 @@ public:
    */
   bool loadFromFile(const char* in_filename, bool use_weighted_edges);
   
+  void createGraph();
 };
 
 
