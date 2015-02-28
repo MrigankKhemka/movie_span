@@ -11,6 +11,8 @@
 #define ACTORGRAPH_HPP
 
 #include <iostream>
+#include "ActorNode.hpp"
+#include <unordered_map>
 
 // Maybe include some data structures here
 
@@ -20,6 +22,8 @@ class ActorGraph {
 protected:
   
   // Maybe add class data structure(s) here
+  unordered_map<string,ActorNode*> actor_map;
+  unordered_map<string,Movie*> movie_map;
 
 public:
   ActorGraph(void);

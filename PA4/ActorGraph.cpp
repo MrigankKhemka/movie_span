@@ -11,6 +11,10 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include "ActorGraph.hpp"
+#include "ActorNode.hpp"
+#include "Movie.hpp"
+#include "Node.hpp"
 
 using namespace std;
 
@@ -64,6 +68,17 @@ bool ActorGraph::loadFromFile(const char* in_filename, bool use_weighted_edges)
     int movie_year = stoi(record[2]);
     
     // we have an actor/movie relationship, now what?
+    if(actor_map.find(actor_name)==actor_map.end()) {
+      ActorNode* actor = new ActorNode(actor_name);
+      actor_map.emplace(actor_name,actor);
+    }
+    if(movie_map.find(movie_title)==movie_map.end()) {
+      Movie* movie = new Movie(movie_title, movie_year);
+      movie_map.emplace(movie_title,movie);
+    }
+    
+    actor_map[actor_name] -> movie.push(movie);
+    movie_map[movie_title] -> cast.push_back(actor);
   }
   
   if (!infile.eof())
@@ -74,4 +89,18 @@ bool ActorGraph::loadFromFile(const char* in_filename, bool use_weighted_edges)
   infile.close();
   
   return true;
+}
+
+void ActorGraph::creatGraph(){
+  for (auto& x: actor_map){
+    Movie* movie_cur;
+    movie_cur = x.second -> movie.pop();
+    
+    for(int i=0; i< (movie_cur->cast.size()); i++){
+      if(x.second->adjacent.find(movie_cur->cast[i]) == x.second->adjacent.end() 
+	&& movie_cur->cast[i]!=x.second){
+	x.second->adjacent[movie_cur->cast[i]] = movie_cur;
+      }
+    }
+  }
 }
