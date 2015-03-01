@@ -56,6 +56,75 @@ int main(int argc, char** argv){
 
 		string actor_name1(record[0]);
 		string actor_name2(record[1]);
+                pathfinder(actor_name1,actor_name2,ActorGraph G);
 		// we have an actor/movie relationship, now what?
+               
+            
+   
 
-	}
+void pathfinder(string &actor_name1,string &actor_name2,ActorGraph G){
+
+     string from = actor_name1;
+     string to = actor_name2;
+      queue<ActorNode*> q;
+      ActorNode* start;
+      ActorNode* head;
+      //unordered_map<ActorNode*, Movie*> adjacent
+      start->name = actor_name1;
+      start-dist = 0;
+      start->pre = -1;
+      q.push(start);
+ while(!q.empty()){
+     head = q.top();
+     q.pop();
+   if(head->done){
+    continue;}
+   else{
+    head->done = true;
+    //adjacent_map = head->adjacent;
+    for (auto it = head->adjacent.begin();it!=head->adjacent.end();++it){
+        new_dist = head->dist + (it->second->weight);
+        if(new_dist < it->first->dist){
+          it->first->dist = new_dist; 
+          it->first->pre = head;
+          q.push(it);
+          if(it->first->name==to&&it->first->done==true){ 
+          writepath(string &from, string &to,ofstream& out);
+           }
+
+
+        }
+     }
+   }
+ }
+}
+
+int writepath(string &from, string &to,ofstream& out){
+    ActorNode *cur;
+    ActorNode *start;
+    cur->name = to;
+    start->name = from;
+    vector<unsigned char> v;
+       while(cur!=start){
+           v.push_back(cur->name);
+           for(auto it = cur->adjacent.begin();it->first!=cur->prev;++it){
+           if(it->first=cur->prev)
+             v.push_back(it->second);
+              cur = cur->prev;
+           }
+          }
+         v.push_back(cur->name);
+
+    for(int i=v.size()-1;i>=0;i--){
+      out.put(v[i]);
+      }
+        
+  }
+
+
+
+   
+
+
+
+

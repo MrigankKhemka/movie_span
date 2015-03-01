@@ -15,7 +15,7 @@ protected:using namespace std;
 			  unordered_map<ActorNode*, Movie*> adjacent;
 			  int dist;
 			  bool done;
-			  Node* pre;
+			  ActorNode* pre;
 
 			  ActorNode(string name) :name(name), dist(0), done(false){};
 
