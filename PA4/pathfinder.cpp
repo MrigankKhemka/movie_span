@@ -12,6 +12,12 @@ class compNode{
 	}
 };
 
+void PrintNode(ActorGraph &graph){
+	for (auto it = graph.actor_map.begin(); it != graph.actor_map.end(); ++it){
+	    cout<< it->second->name <<' '<<it->second->dist<<' '<<it->second->done<<endl;
+	}
+}
+
 void pathfinder(string &actor_name1, string &actor_name2, ActorGraph &graph){
 
 	string from = actor_name1;
@@ -27,10 +33,13 @@ void pathfinder(string &actor_name1, string &actor_name2, ActorGraph &graph){
 	while (!q.empty()){
 		head = q.top();
 		q.pop();
-
+		
+		cout<<"======head "<<head->name<<endl;
+		
 		if (head->name.compare(to)==0) return;//string == ??????
 
 		if (head->done){
+			cout<<"xxxxxxheaddone"<<endl;
 			continue;
 		}
 		else{
@@ -38,7 +47,13 @@ void pathfinder(string &actor_name1, string &actor_name2, ActorGraph &graph){
 			//adjacent_map = head->adjacent;
 			for (auto it = head->adjacent.begin(); it != head->adjacent.end(); ++it){
 				new_dist = head->dist + (it->second->weight);
+				
+				cout<<"ad node "<<it->first->name<<endl;
+				cout<<"newdist "<<new_dist<<endl;
+				cout<<"olddist "<<it->first->dist<<endl;
+				
 				if (new_dist < it->first->dist){
+				  cout<<"newdist < original"<<endl;
 					it->first->dist = new_dist;
 					it->first->pre = head;
 					q.push(it->first);
@@ -111,7 +126,7 @@ int main(int argc, char** argv){
 	if (ifweighted == 'u')
 		graph.loadFromFile(argv[1], false);
 	else if (ifweighted == 'w')
-		graph.loadFromFile(argv[1], false);
+		graph.loadFromFile(argv[1], true);
 
 	graph.createGraph();
 
@@ -130,8 +145,9 @@ int main(int argc, char** argv){
 	while (infile)
 	{		
 		string s;
-		ActorGraph graphtemp = graph;
 		
+		ActorGraph graphtemp;
+		graphtemp=graph;
 		
 		// get the next line
 		if (!getline(infile, s)) break;
