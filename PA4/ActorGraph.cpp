@@ -99,14 +99,16 @@ bool ActorGraph::loadFromFile(const char* in_filename, bool use_weighted_edges)
 void ActorGraph::createGraph(){
 	for (auto& x : actor_map){
 		Movie* movie_cur;
-		movie_cur = x.second->movie.top();
-		x.second->movie.pop();
+		while (x.second->movie.size()>=1){
+		    movie_cur = x.second->movie.top();
+		    x.second->movie.pop();
 
-		for (int i = 0; i < (movie_cur->cast.size()); i++){
-			if (x.second->adjacent.find(actor_map[movie_cur->cast[i]]) == x.second->adjacent.end()
-				&& actor_map[movie_cur->cast[i]] != x.second){
-				x.second->adjacent[actor_map[movie_cur->cast[i]]] = movie_cur;
-			}
+		    for (int i = 0; i < (movie_cur->cast.size()); i++){
+			    if (x.second->adjacent.find(actor_map[movie_cur->cast[i]]) == x.second->adjacent.end()
+				    && actor_map[movie_cur->cast[i]] != x.second){
+				    x.second->adjacent[actor_map[movie_cur->cast[i]]] = movie_cur;
+			    }
+		    }
 		}
 	}
 }
