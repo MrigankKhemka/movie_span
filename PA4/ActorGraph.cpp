@@ -14,11 +14,19 @@
 #include "ActorGraph.hpp"
 #include "ActorNode.hpp"
 #include "Movie.hpp"
+#include <unordered_map>
 
 using namespace std;
 
 ActorGraph::ActorGraph(void) {}
 
+void ActorGraph::MakeUpdate(){
+ for (auto it = actor_map.begin(); it != actor_map.end(); ++it){
+       it->second->dist=6000;
+       it->second->pre=NULL;
+       it->second->done=false;
+   }
+}
 
 bool ActorGraph::loadFromFile(const char* in_filename, bool use_weighted_edges)
 {

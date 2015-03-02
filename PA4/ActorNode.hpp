@@ -25,12 +25,6 @@ using namespace std;
 			  bool done;
 			  ActorNode* pre;
 
-			  ActorNode(string name) :name(name), dist(60000), done(false),pre(0){};
-
-			  
-			  
-			  
-
-
+			  ActorNode(string name) :name(name), dist(60000), done(false),pre(NULL){};
 		  };
 #endif // ACTORNODE_HPP

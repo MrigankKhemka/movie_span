@@ -19,7 +19,6 @@ void PrintNode(ActorGraph &graph){
 }
 
 void pathfinder(string &actor_name1, string &actor_name2, ActorGraph &graph){
-
 	string from = actor_name1;
 	string to = actor_name2;
 	priority_queue<ActorNode*, vector<ActorNode*>, compNode> q;
@@ -33,49 +32,36 @@ void pathfinder(string &actor_name1, string &actor_name2, ActorGraph &graph){
 	while (!q.empty()){
 		head = q.top();
 		q.pop();
-		
+
 		cout<<"======head "<<head->name<<endl;
 		
-		if (head->name.compare(to)==0) return;//string == ??????
-
+		if (head->name.compare(to)==0) return;
 		if (head->done){
 			cout<<"xxxxxxheaddone"<<endl;
 			continue;
 		}
 		else{
 			head->done = true;
-			//adjacent_map = head->adjacent;
+                      /* for (auto it = head->adjacent.begin(); it != head->adjacent.end(); ++it){
+                                    cout<<"adjacent node of "<<head->name<<":"<<it->first->name<<endl;
+                       }*/
 			for (auto it = head->adjacent.begin(); it != head->adjacent.end(); ++it){
+<<<<<<< HEAD
 				new_dist = head->dist + (it->second->weight);
 				
 				cout<<"ad node "<<it->first->name<<endl;
 				cout<<"newdist "<<new_dist<<endl;
 				cout<<"olddist "<<it->first->dist<<endl;
-				
+
 				if (new_dist < it->first->dist){
 				  cout<<"newdist < original"<<endl;
 					it->first->dist = new_dist;
+                                  //   cout<<"updated_dist:"<<it->first->dist<<endl;
 					it->first->pre = head;
 					q.push(it->first);
 				}
 			}
 		}
-
-		//for (auto it = head->adjacent.begin(); it != head->adjacent.end(); ++it){//sure?
-		//	new_dist = head->dist + (it->second->weight);
-		//	if (new_dist < it->first->dist){
-		//		it->first->dist = new_dist;
-		//		it->first->pre = head;
-		//		q.push(it);
-		//		if (it->first->name == to&&it->first->done == true){
-		//			writepath(string &from, string &to, ofstream& out);
-		//		}
-
-
-		//	}
-		//}
-
-		//}
 	}
 }
 
@@ -145,9 +131,9 @@ int main(int argc, char** argv){
 	while (infile)
 	{		
 		string s;
-		
-		ActorGraph graphtemp;
-		graphtemp=graph;
+
+		//ActorGraph graphtemp;
+		//graphtemp=graph;
 		
 		// get the next line
 		if (!getline(infile, s)) break;
@@ -179,9 +165,10 @@ int main(int argc, char** argv){
 		string actor_name2(record[1]);
 
 		// we have an actor/movie relationship, now what?
-		pathfinder(actor_name1, actor_name2, graphtemp);
+		pathfinder(actor_name1, actor_name2, graph);
 		cout << j << " pathfinder passed" << endl;
-		writepath(actor_name1, actor_name2, outfile, graphtemp);
+		writepath(actor_name1, actor_name2, outfile, graph);
+        graph.MakeUpdate();
 		cout << j << " writepath passed" << endl;
 		j++;
 	}
