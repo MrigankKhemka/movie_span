@@ -1,26 +1,23 @@
 #ifndef MOVIE_HPP
 #define MOVIE_HPP
-
+#include <string>
 #include <vector>
 
-protected:using namespace std;
+using namespace std;
 
 		  class Movie {
-
+			  //friend bool comp(Movie* one, Movie* other);
 		  public:
 
-			  vector<ActorNode*> cast;
+			  vector<string> cast;
 			  int weight;
 			  int year;
 			  string title;
 
-			  Movie(string title, int year) : title(title), weight(2015 - year + 1), year(year){ }
+			  Movie(string title, int year, int weight) : title(title), weight(weight), year(year){ }
 
 			  bool comp(Movie* one, Movie* other){
 				  return (one->weight) < (other->weight);
 			  }
-
-
-
 		  };
 #endif // MOVIE_HPP

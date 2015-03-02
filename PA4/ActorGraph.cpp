@@ -14,7 +14,6 @@
 #include "ActorGraph.hpp"
 #include "ActorNode.hpp"
 #include "Movie.hpp"
-#include "Node.hpp"
 
 using namespace std;
 
@@ -33,7 +32,7 @@ bool ActorGraph::loadFromFile(const char* in_filename, bool use_weighted_edges)
 	while (infile)
 	{
 		string s;
-
+		Movie* movie;
 		// get the next line
 		if (!getline(infile, s)) break;
 
@@ -74,17 +73,17 @@ bool ActorGraph::loadFromFile(const char* in_filename, bool use_weighted_edges)
 		}
 		if (movie_map.find(movie_title) == movie_map.end()) {
 			if (use_weighted_edges){
-				Movie* movie = new Movie(movie_title, movie_year);
+				movie = new Movie(movie_title, movie_year, 2015 - movie_year + 1);
 				movie_map.emplace(movie_title, movie);
 			}
 			else{
-				Movie* movie = new Movie(movie_title, 2015);
+				movie = new Movie(movie_title, movie_year, 1);
 				movie_map.emplace(movie_title, movie);
 			}
 		}
 
 		actor_map[actor_name]->movie.push(movie);
-		movie_map[movie_title]->cast.push_back(actor);
+		movie_map[movie_title]->cast.push_back(actor_name);
 	}
 
 	if (!infile.eof())
@@ -100,12 +99,13 @@ bool ActorGraph::loadFromFile(const char* in_filename, bool use_weighted_edges)
 void ActorGraph::createGraph(){
 	for (auto& x : actor_map){
 		Movie* movie_cur;
-		movie_cur = x.second->movie.pop();
+		movie_cur = x.second->movie.top();
+		x.second->movie.pop();
 
 		for (int i = 0; i < (movie_cur->cast.size()); i++){
-			if (x.second->adjacent.find(movie_cur->cast[i]) == x.second->adjacent.end()
-				&& movie_cur->cast[i] != x.second){
-				x.second->adjacent[movie_cur->cast[i]] = movie_cur;
+			if (x.second->adjacent.find(actor_map[movie_cur->cast[i]]) == x.second->adjacent.end()
+				&& actor_map[movie_cur->cast[i]] != x.second){
+				x.second->adjacent[actor_map[movie_cur->cast[i]]] = movie_cur;
 			}
 		}
 	}

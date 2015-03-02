@@ -9,7 +9,7 @@
 
 #ifndef ACTORGRAPH_HPP
 #define ACTORGRAPH_HPP
-
+#include <string>
 #include <iostream>
 #include "ActorNode.hpp"
 #include "Movie.hpp"
@@ -20,16 +20,12 @@
 using namespace std;
 
 class ActorGraph {
-protected:
-  
-  // Maybe add class data structure(s) here
-  unordered_map<string,ActorNode*> actor_map;
-  unordered_map<string,Movie*> movie_map;
-
 public:
   ActorGraph(void);
 
   // Maybe add some more methods here
+  unordered_map<string,ActorNode*> actor_map;
+  unordered_map<string,Movie*> movie_map;
   
   /** You can modify this method definition as you wish
    *
