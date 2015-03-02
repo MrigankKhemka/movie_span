@@ -11,7 +11,7 @@ using namespace std;
 		  class compMovie{
 		    public: 
 		          bool operator()(Movie*& one, Movie*& other){
-				  return (one->weight) < (other->weight);
+				  return (one->weight) > (other->weight);
 			  }
 		  };
 		  

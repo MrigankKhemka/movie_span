@@ -22,7 +22,7 @@ ActorGraph::ActorGraph(void) {}
 
 void ActorGraph::MakeUpdate(){
  for (auto it = actor_map.begin(); it != actor_map.end(); ++it){
-       it->second->dist=6000;
+       it->second->dist=60000;
        it->second->pre=NULL;
        it->second->done=false;
    }
@@ -79,6 +79,9 @@ bool ActorGraph::loadFromFile(const char* in_filename, bool use_weighted_edges)
 			ActorNode* actor = new ActorNode(actor_name);
 			actor_map.emplace(actor_name, actor);
 		}
+
+
+
 		if (movie_map.find(movie_title) == movie_map.end()) {
 			if (use_weighted_edges){
 				movie = new Movie(movie_title, movie_year, 2015 - movie_year + 1);
@@ -88,6 +91,9 @@ bool ActorGraph::loadFromFile(const char* in_filename, bool use_weighted_edges)
 				movie = new Movie(movie_title, movie_year, 1);
 				movie_map.emplace(movie_title, movie);
 			}
+		}
+		else{
+			movie = movie_map[movie_title];
 		}
 
 		actor_map[actor_name]->movie.push(movie);
@@ -110,7 +116,7 @@ void ActorGraph::createGraph(){
 		while (x.second->movie.size()>=1){
 		    movie_cur = x.second->movie.top();
 		    x.second->movie.pop();
-
+			//cout << "movie_cur title"<<movie_cur->title << endl;
 		    for (int i = 0; i < (movie_cur->cast.size()); i++){
 			    if (x.second->adjacent.find(actor_map[movie_cur->cast[i]]) == x.second->adjacent.end()
 				    && actor_map[movie_cur->cast[i]] != x.second){
@@ -118,5 +124,8 @@ void ActorGraph::createGraph(){
 			    }
 		    }
 		}
+		/*for (auto it = x.second->adjacent.begin(); it != x.second->adjacent.end(); ++it){
+			cout << "adjacent node of " << x.first << ":" << it->first->name << "----with movie" << it->second->title << endl;
+		}*/
 	}
 }

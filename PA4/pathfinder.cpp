@@ -8,15 +8,9 @@ using namespace std;
 class compNode{
   public:
 	bool operator()(ActorNode*& one, ActorNode*& other){
-		return (one->dist) < (other->dist);
+		return (one->dist) > (other->dist);
 	}
 };
-
-void PrintNode(ActorGraph &graph){
-	for (auto it = graph.actor_map.begin(); it != graph.actor_map.end(); ++it){
-	    cout<< it->second->name <<' '<<it->second->dist<<' '<<it->second->done<<endl;
-	}
-}
 
 void pathfinder(string &actor_name1, string &actor_name2, ActorGraph &graph){
 	string from = actor_name1;
@@ -33,28 +27,28 @@ void pathfinder(string &actor_name1, string &actor_name2, ActorGraph &graph){
 		head = q.top();
 		q.pop();
 
-		cout<<"======head "<<head->name<<endl;
+	/*	cout<<"======head "<<head->name<<endl;*/
 		
 		if (head->name.compare(to)==0) return;
 		if (head->done){
-			cout<<"xxxxxxheaddone"<<endl;
+			/*cout<<"xxxxxxheaddone"<<endl;*/
 			continue;
 		}
 		else{
 			head->done = true;
                       /* for (auto it = head->adjacent.begin(); it != head->adjacent.end(); ++it){
                                     cout<<"adjacent node of "<<head->name<<":"<<it->first->name<<endl;
-                       }*/
+                       }
+					   */
 			for (auto it = head->adjacent.begin(); it != head->adjacent.end(); ++it){
-<<<<<<< HEAD
 				new_dist = head->dist + (it->second->weight);
 				
-				cout<<"ad node "<<it->first->name<<endl;
+				/*cout<<"ad node "<<it->first->name<<endl;
 				cout<<"newdist "<<new_dist<<endl;
-				cout<<"olddist "<<it->first->dist<<endl;
+				cout<<"olddist "<<it->first->dist<<endl;*/
 
 				if (new_dist < it->first->dist){
-				  cout<<"newdist < original"<<endl;
+				 /* cout<<"newdist < original"<<endl;*/
 					it->first->dist = new_dist;
                                   //   cout<<"updated_dist:"<<it->first->dist<<endl;
 					it->first->pre = head;
@@ -84,22 +78,6 @@ void writepath(string &from, string &to, ofstream& out, ActorGraph &graph){
 		<<track[i] -> adjacent[track[i-1]]->year << "]-->";
 	}
 	out <<'('<<track[0]->name<<')'<<endl;
-	
-	
-	/*while (end != start){
-		v.push_back(cur->name);
-		for (auto it = cur->adjacent.begin(); it->first != cur->prev; ++it){
-			if (it->first = cur->prev)
-				v.push_back(it->second);
-			cur = cur->prev;
-		}
-	}
-	v.push_back(cur->name);
-
-	for (int i = v.size() - 1; i >= 0; i--){
-		out.put(v[i]);
-	}
-*/
 }
 
 int main(int argc, char** argv){
@@ -110,9 +88,9 @@ int main(int argc, char** argv){
 	ActorGraph graph;
 
 	if (ifweighted == 'u')
-		graph.loadFromFile(argv[1], false);
+		if (graph.loadFromFile(argv[1], false)); else cout << "error in reading data" << endl;
 	else if (ifweighted == 'w')
-		graph.loadFromFile(argv[1], true);
+		if (graph.loadFromFile(argv[1], true)); else cout << "error in reading data" << endl;
 
 	graph.createGraph();
 
@@ -127,7 +105,7 @@ int main(int argc, char** argv){
 	
 	outfile<<"(actor)--[movie#@year]-->(actor)--..."<<endl;
 	// keep reading lines until the end of file is reached
-	int j=1;//for debug
+	//int j=1;//for debug
 	while (infile)
 	{		
 		string s;
@@ -166,18 +144,10 @@ int main(int argc, char** argv){
 
 		// we have an actor/movie relationship, now what?
 		pathfinder(actor_name1, actor_name2, graph);
-		cout << j << " pathfinder passed" << endl;
+		//cout << j << " pathfinder passed" << endl;
 		writepath(actor_name1, actor_name2, outfile, graph);
         graph.MakeUpdate();
-		cout << j << " writepath passed" << endl;
-		j++;
+		//cout << j << " writepath passed" << endl;
+		//j++;
 	}
 }
-
-
-
-
-
-
-
-
