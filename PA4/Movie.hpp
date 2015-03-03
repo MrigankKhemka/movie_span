@@ -1,3 +1,8 @@
+/*
+*Name:Xinyu Qian, Fangfei Huo
+*date:2015.3.1
+*cse 100 assignment 4
+*/
 #ifndef MOVIE_HPP
 #define MOVIE_HPP
 #include <string>
