@@ -2,7 +2,8 @@
 *Name:Xinyu Qian, Fangfei Huo
 *date:2015.3.1
 *cse 100 assignment 4
-*a class for actor and node since every actor has its representing node so 
+*a class for actor and node 
+*since actor and node have a one-to-one correspondence so use a single class to describe them both
 *
 * Description of its member:
 * name: actor's name
