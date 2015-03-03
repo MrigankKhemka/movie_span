@@ -74,7 +74,7 @@ void writepath(string &from, string &to, ofstream& out, ActorGraph &graph){
 	track.push_back(end);
 	
 	for (int i = track.size() - 1; i > 0; i--) {
-		out <<'('<< track[i] -> name<<")--[" <<track[i] -> adjacent[track[i-1]]-> title<< "#@"
+		out <<'('<< track[i] -> name<<")--[" <<track[i] -> adjacent[track[i-1]]->name<< "#@"
 		<<track[i] -> adjacent[track[i-1]]->year << "]-->";
 	}
 	out <<'('<<track[0]->name<<')'<<endl;
@@ -146,7 +146,7 @@ int main(int argc, char** argv){
 		pathfinder(actor_name1, actor_name2, graph);
 		//cout << j << " pathfinder passed" << endl;
 		writepath(actor_name1, actor_name2, outfile, graph);
-        graph.MakeUpdate();
+                graph.MakeUpdate();
 		//cout << j << " writepath passed" << endl;
 		//j++;
 	}

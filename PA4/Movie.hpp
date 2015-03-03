@@ -13,8 +13,9 @@ using namespace std;
 			  int weight;
 			  int year;
 			  string title;
+                          string name;
 
-			  Movie(string title, int year, int weight) : title(title), weight(weight), year(year){ }
+			  Movie(string title, int year, int weight,string name) : title(title), weight(weight), year(year),name(name){ }
 
 			  bool comp(Movie* one, Movie* other){
 				  return (one->weight) < (other->weight);
