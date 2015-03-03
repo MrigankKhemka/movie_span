@@ -74,7 +74,7 @@ void writepath(string &from, string &to, ofstream& out, ActorGraph &graph){
 	track.push_back(end);
 	
 	for (int i = track.size() - 1; i > 0; i--) {
-		out <<'('<< track[i] -> name<<")--[" <<track[i] -> adjacent[track[i-1]]->name<< "#@"
+		out <<'('<< track[i] -> name<<")--[" <<track[i] -> adjacent[track[i-1]]->title<< "#@"
 		<<track[i] -> adjacent[track[i-1]]->year << "]-->";
 	}
 	out <<'('<<track[0]->name<<')'<<endl;

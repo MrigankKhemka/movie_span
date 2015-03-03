@@ -1,3 +1,8 @@
+/*
+*Name:Xinyu Qian, Fangfei Huo
+*date:2015.3.1
+*cse 100 assignment 4
+*/
 #ifndef MOVIE_HPP
 #define MOVIE_HPP
 #include <string>
@@ -12,10 +17,10 @@ using namespace std;
 			  vector<string> cast;
 			  int weight;
 			  int year;
-			  string title;
-                          string name;
+			  string index;
+                          string title;
 
-			  Movie(string title, int year, int weight,string name) : title(title), weight(weight), year(year),name(name){ }
+			  Movie(string index, int year, int weight,string title) : index(index), weight(weight), year(year),title(title){ }
 
 			  bool comp(Movie* one, Movie* other){
 				  return (one->weight) < (other->weight);

@@ -71,9 +71,9 @@ bool ActorGraph::loadFromFile(const char* in_filename, bool use_weighted_edges)
 		}
 
 		string actor_name(record[0]);
-		string movie_title(record[1]+record[2]);
+		string movie_index(record[1]+record[2]);
 		int movie_year = stoi(record[2]);
-                string movie_name = record[1];
+                string movie_title = record[1];
 
 		// we have an actor/movie relationship, now what?
 		if (actor_map.find(actor_name) == actor_map.end()) {
@@ -83,24 +83,24 @@ bool ActorGraph::loadFromFile(const char* in_filename, bool use_weighted_edges)
 
 
 
-		if (movie_map.find(movie_title) == movie_map.end()) {
+		if (movie_map.find(movie_index) == movie_map.end()) {
 			if (use_weighted_edges){
-				movie = new Movie(movie_title, movie_year, 2015 - movie_year + 1, movie_name);
+				movie = new Movie(movie_index, movie_year, 2015 - movie_year + 1, movie_title);
                                
-				movie_map.emplace(movie_title, movie);
+				movie_map.emplace(movie_index, movie);
 			}
 			else{
-				movie = new Movie(movie_title, movie_year, 1, movie_name);
+				movie = new Movie(movie_index, movie_year, 1, movie_title);
                         
-				movie_map.emplace(movie_title, movie);
+				movie_map.emplace(movie_index, movie);
 			}
 		}
 		else{  
-			movie = movie_map[movie_title];
+			movie = movie_map[movie_index];
 		}
 
 		actor_map[actor_name]->movie.push(movie);
-		movie_map[movie_title]->cast.push_back(actor_name);
+		movie_map[movie_index]->cast.push_back(actor_name);
 	}
 
 	if (!infile.eof())
