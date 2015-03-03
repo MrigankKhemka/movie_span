@@ -2,8 +2,9 @@
 *Name:Xinyu Qian, Fangfei Huo
 *date:2015.3.1
 *cse 100 assignment 4
-*a class for Movie and edge 
-*since Movie and edge have a one-to-one correspondence so use a single class to describe them both
+*
+*a class for Movie 
+*
 * Description of its member:
 * vector cast: all actors's name who casted in a movie
 * weight: each movie has a weight computed by it's released year 
@@ -11,8 +12,7 @@
 * index: a string used to distinguish a movie from other movies, it is composed of movie title and movie year 
 * title:the name of the movie
 * 
-* initialize: set the name as the input actor name 
-*             set the index,year,weight,title as the input movie's index,year,weight and title
+* initialize: set the index,year,weight,title as the input movie's index,year,weight and title
 */
 #ifndef MOVIE_HPP
 #define MOVIE_HPP
@@ -36,8 +36,6 @@ using namespace std;
             /*the compare operator used in the priority queue of movie
              * the lower weight movie has higher priority
              */
-
-
 			  bool comp(Movie* one, Movie* other){
 				  return (one->weight) < (other->weight);
 			  }

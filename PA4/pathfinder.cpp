@@ -1,3 +1,12 @@
+/*
+*Name:Xinyu Qian, Fangfei Huo
+*date:2015.3.1
+*cse 100 assignment 4
+*
+*use Dijkstra Algorithm to compute the shortest path between to nodes
+*after each compute initial the dist,pre,done to make the graph get ready for the next search
+*/
+
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -5,6 +14,9 @@
 #include "ActorGraph.hpp"
 using namespace std;
 
+/*to tell the priority queue how the priority is computed
+* for each node the lower the distance the higher the priorty 
+*/
 class compNode{
   public:
 	bool operator()(ActorNode*& one, ActorNode*& other){
@@ -12,6 +24,10 @@ class compNode{
 	}
 };
 
+/*the Dijkstra Algorithm
+* the only difference from the general Dijkstra Algorithm is
+* we stop the algorithm once we get the end-node from the prority queue
+*/
 void pathfinder(string &actor_name1, string &actor_name2, ActorGraph &graph){
 	string from = actor_name1;
 	string to = actor_name2;
@@ -27,30 +43,17 @@ void pathfinder(string &actor_name1, string &actor_name2, ActorGraph &graph){
 		head = q.top();
 		q.pop();
 
-	/*	cout<<"======head "<<head->name<<endl;*/
-		
 		if (head->name.compare(to)==0) return;
 		if (head->done){
-			/*cout<<"xxxxxxheaddone"<<endl;*/
 			continue;
 		}
 		else{
 			head->done = true;
-                      /* for (auto it = head->adjacent.begin(); it != head->adjacent.end(); ++it){
-                                    cout<<"adjacent node of "<<head->name<<":"<<it->first->name<<endl;
-                       }
-					   */
 			for (auto it = head->adjacent.begin(); it != head->adjacent.end(); ++it){
 				new_dist = head->dist + (it->second->weight);
 				
-				/*cout<<"ad node "<<it->first->name<<endl;
-				cout<<"newdist "<<new_dist<<endl;
-				cout<<"olddist "<<it->first->dist<<endl;*/
-
 				if (new_dist < it->first->dist){
-				 /* cout<<"newdist < original"<<endl;*/
 					it->first->dist = new_dist;
-                                  //   cout<<"updated_dist:"<<it->first->dist<<endl;
 					it->first->pre = head;
 					q.push(it->first);
 				}
@@ -59,6 +62,9 @@ void pathfinder(string &actor_name1, string &actor_name2, ActorGraph &graph){
 	}
 }
 
+/*use to write the path between two nodes
+* use a vector track to temporary store the path
+*/
 void writepath(string &from, string &to, ofstream& out, ActorGraph &graph){
 	ActorNode *end;
 	ActorNode *start;
@@ -81,17 +87,18 @@ void writepath(string &from, string &to, ofstream& out, ActorGraph &graph){
 }
 
 int main(int argc, char** argv){
-	//string data = argv[1];
 	char ifweighted = *argv[2];
 	string findpair = argv[3];
 	string output = argv[4];
 	ActorGraph graph;
 
+	//load actor-movie data
 	if (ifweighted == 'u')
 		if (graph.loadFromFile(argv[1], false)); else cout << "error in reading data" << endl;
 	else if (ifweighted == 'w')
 		if (graph.loadFromFile(argv[1], true)); else cout << "error in reading data" << endl;
-
+	
+	//create the graph by link all the nodes
 	graph.createGraph();
 
 	bool have_header = false;
@@ -104,15 +111,13 @@ int main(int argc, char** argv){
 	else cout << "error in opening outfile" << endl;
 	
 	outfile<<"(actor)--[movie#@year]-->(actor)--..."<<endl;
-	// keep reading lines until the end of file is reached
-	//int j=1;//for debug
+	
+	// read pair file and do a Dijkstra algorithm to search for the shortest distance for every pair
+	//and write the result to the output file
 	while (infile)
 	{		
 		string s;
-
-		//ActorGraph graphtemp;
-		//graphtemp=graph;
-		
+	
 		// get the next line
 		if (!getline(infile, s)) break;
 
@@ -142,12 +147,10 @@ int main(int argc, char** argv){
 		string actor_name1(record[0]);
 		string actor_name2(record[1]);
 
-		// we have an actor/movie relationship, now what?
+		// we have an actor/movie relationship
 		pathfinder(actor_name1, actor_name2, graph);
-		//cout << j << " pathfinder passed" << endl;
 		writepath(actor_name1, actor_name2, outfile, graph);
                 graph.MakeUpdate();
-		//cout << j << " writepath passed" << endl;
-		//j++;
+
 	}
 }

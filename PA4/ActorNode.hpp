@@ -2,14 +2,16 @@
 *Name:Xinyu Qian, Fangfei Huo
 *date:2015.3.1
 *cse 100 assignment 4
-*a class for actor and node 
+*a class for actor and node and edge
 *since actor and node have a one-to-one correspondence so use a single class to describe them both
+*we give every node a hash table to contain its adjacent nodes and the movie representing the node
+*so edge is also represented in this class
 *
 * Description of its member:
 * name: actor's name
 * priority_queue movie: all movies which the actor took part in, which are 
 *                       placed in a priority queue in which the lower weight has higher priority
-* unordered_map adjacent: a hash table contains all its adjacent nodes and the edge(movie) connecting them, 
+* unordered_map adjacent(edges): a hash table contains all its adjacent nodes and the edge(movie) connecting them, 
 *                         the key for hash table is ActorNode*, and the content is Movie*
 * dist,done,pre: the distance,done flag and previous node pointer used in Dijkstra's algorithm
 * compMovie: the compare operator used in the priority queue of movie
