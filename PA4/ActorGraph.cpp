@@ -1,12 +1,15 @@
 /*
- * ActorGraph.cpp
- * Author: Adrian Guthals
- * Date: 2/24/2015
- *
- * This file is meant to exist as a container for starter code that you can use to read the input file format
- * defined in movie_casts.tsv. Feel free to modify any/all aspects as you wish.
- */
-
+*Name:Xinyu Qian, Fangfei Huo
+*date:2015.3.1
+*cse 100 assignment 4
+*Implement the class ActorGraph,which actor are the nodes of the graph, 
+*the movies which are casted by actor pairs are the edges between these two actors 
+* Description of its member:
+* createGraph():a function used to build the directed edges between all ActorNodes between every ActorNode pairs who appeared in the same movie , 
+* we stored the least weighted movies between actor-pairs to in each ActorNode's adjacent map.
+* MakeUpdate(): a function used to update the dist, pre,done of each ActorNode in the ActorGraph after one search for an actor-pair 
+*             
+*/
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -66,7 +69,6 @@ bool ActorGraph::loadFromFile(const char* in_filename, bool use_weighted_edges)
 
 		if (record.size() != 3)
 		{
-			// we should have exactly 3 columns
 			continue;
 		}
 
@@ -75,14 +77,15 @@ bool ActorGraph::loadFromFile(const char* in_filename, bool use_weighted_edges)
 		int movie_year = stoi(record[2]);
                 string movie_title = record[1];
 
-		// we have an actor/movie relationship, now what?
+
+               /*check if the read in actor_name has been saved in the actor_map, if not, insert it to the actor_map*/
 		if (actor_map.find(actor_name) == actor_map.end()) {
 			ActorNode* actor = new ActorNode(actor_name);
 			actor_map.emplace(actor_name, actor);
 		}
 
-
-
+  
+              /*check if the read in movie_index has been saved in the movie_map, if not, insert it to the movie_map*/
 		if (movie_map.find(movie_index) == movie_map.end()) {
 			if (use_weighted_edges){
 				movie = new Movie(movie_index, movie_year, 2015 - movie_year + 1, movie_title);
@@ -98,7 +101,8 @@ bool ActorGraph::loadFromFile(const char* in_filename, bool use_weighted_edges)
 		else{  
 			movie = movie_map[movie_index];
 		}
-
+                /*push movie to the  priority_queue of the ActorNode named in actor_name in the actor_map*/
+                /*push actor_name to the cast vector of the Movie named in movie_index in the movie_map*/
 		actor_map[actor_name]->movie.push(movie);
 		movie_map[movie_index]->cast.push_back(actor_name);
 	}
@@ -119,7 +123,6 @@ void ActorGraph::createGraph(){
 		while (x.second->movie.size()>=1){
 		    movie_cur = x.second->movie.top();
 		    x.second->movie.pop();
-			//cout << "movie_cur title"<<movie_cur->title << endl;
 		    for (int i = 0; i < (movie_cur->cast.size()); i++){
 			    if (x.second->adjacent.find(actor_map[movie_cur->cast[i]]) == x.second->adjacent.end()
 				    && actor_map[movie_cur->cast[i]] != x.second){
@@ -127,8 +130,5 @@ void ActorGraph::createGraph(){
 			    }
 		    }
 		}
-		/*for (auto it = x.second->adjacent.begin(); it != x.second->adjacent.end(); ++it){
-			cout << "adjacent node of " << x.first << ":" << it->first->name << "----with movie" << it->second->title << endl;
-		}*/
 	}
 }
