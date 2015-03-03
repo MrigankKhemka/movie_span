@@ -5,15 +5,14 @@
 *a class for ActorGraph,which actor are the nodes of the graph, 
 *the movies which are casted by actor pairs are the edges between these two actors 
 * Description of its member:
-* priority_queue movie: all movies which the actor took part in, which are 
-*                       placed in a priority queue in which the lower weight has higher priority
 * unordered_map actor_map: a hash table contains all names of actors appeared in the input file and the pointers to those ActorNodes, 
 *                         the key for hash table is actor name, and the content is ActorNode*
-* unordered_map movie_map: a hash table contains all names of movies appeared in the input file and the pointers to those Movie*, 
-*                         the key for hash table is actor name, and the content is ActorNode*
-* 
-* initialize: set the name as the input actor name 
-*             set dist=60000, done=false, pre=NULL to meet Dijkstra's algorithm's requirement
+* unordered_map movie_map: a hash table contains all names of movies appeared in the input file and the pointers to Movie, 
+*                         the key for hash table is movie name, and the content is Movie*
+* createGraph():a function used to build the directed edges between all ActorNodes between every ActorNode pairs who appeared in the same movie , 
+* we stored the least weighted movies between actor-pairs to in each ActorNode's adjacent map.
+* MakeUpdate(): a function used to update the dist, pre of each ActorNode in the ActorGraph after one search for an actor-pair 
+*             
 */
 #ifndef ACTORGRAPH_HPP
 #define ACTORGRAPH_HPP
