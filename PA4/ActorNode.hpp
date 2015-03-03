@@ -65,5 +65,7 @@ using namespace std;
               *set dist=60000, done=false, pre=NULL to meet Dijkstra's algorithm's requirement
               */
 			  ActorNode(string name) :name(name), dist(60000), done(false),pre(NULL){};
+			  
+			  ~ActorNode() {  }
 		  };
 #endif // ACTORNODE_HPP

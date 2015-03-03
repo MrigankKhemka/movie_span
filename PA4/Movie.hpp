@@ -39,5 +39,7 @@ using namespace std;
 			  bool comp(Movie* one, Movie* other){
 				  return (one->weight) < (other->weight);
 			  }
+			  ~Movie() {  }
 		  };
+
 #endif // MOVIE_HPP

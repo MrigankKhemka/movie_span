@@ -54,6 +54,16 @@ public:
   // a function used to update the dist, pre of each ActorNode 
   //in the ActorGraph after one search for an actor-pair 
   void MakeUpdate();
+  
+  ~ActorGraph() { 
+      for (auto it = actor_map.begin(); it != actor_map.end(); ++it){
+		delete it->second;
+	}
+      for (auto it = movie_map.begin(); it != movie_map.end(); ++it){
+		delete it->second;
+	}
+  }
+  
 };
 
 
