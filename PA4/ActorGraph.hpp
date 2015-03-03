@@ -2,14 +2,16 @@
 *Name:Xinyu Qian, Fangfei Huo
 *date:2015.3.1
 *cse 100 assignment 4
+*
 *a class for ActorGraph,which actor are the nodes of the graph, 
 *the movies which are casted by actor pairs are the edges between these two actors 
+*
 * Description of its member:
 * unordered_map actor_map: a hash table contains all names of actors appeared in the input file and the pointers to those ActorNodes, 
 *                         the key for hash table is actor name, and the content is ActorNode*
 * unordered_map movie_map: a hash table contains all names of movies appeared in the input file and the pointers to Movie, 
 *                         the key for hash table is movie name, and the content is Movie*
-* createGraph():a function used to build the directed edges between all ActorNodes between every ActorNode pairs who appeared in the same movie , 
+* createGraph():a function used to build the directed edges between all ActorNodes between every ActorNode pairs who appeared in the same movie
 * we stored the least weighted movies between actor-pairs to in each ActorNode's adjacent map.
 * MakeUpdate(): a function used to update the dist, pre of each ActorNode in the ActorGraph after one search for an actor-pair 
 *             
@@ -45,7 +47,12 @@ public:
    */
   bool loadFromFile(const char* in_filename, bool use_weighted_edges);
   
+  //used to build the directed edges between all ActorNodes 
+  //between every ActorNode pairs who appeared in the same movie
   void createGraph();
+  
+  // a function used to update the dist, pre of each ActorNode 
+  //in the ActorGraph after one search for an actor-pair 
   void MakeUpdate();
 };
 

@@ -2,8 +2,10 @@
 *Name:Xinyu Qian, Fangfei Huo
 *date:2015.3.1
 *cse 100 assignment 4
+*
 *Implement the class ActorGraph,which actor are the nodes of the graph, 
 *the movies which are casted by actor pairs are the edges between these two actors 
+*
 * Description of its member:
 * createGraph():a function used to build the directed edges between all ActorNodes between every ActorNode pairs who appeared in the same movie , 
 * we stored the least weighted movies between actor-pairs to in each ActorNode's adjacent map.

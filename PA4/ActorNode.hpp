@@ -2,6 +2,7 @@
 *Name:Xinyu Qian, Fangfei Huo
 *date:2015.3.1
 *cse 100 assignment 4
+*
 *a class for actor and node and edge
 *since actor and node have a one-to-one correspondence so use a single class to describe them both
 *we give every node a hash table to contain its adjacent nodes and the movie representing the node
