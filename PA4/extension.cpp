@@ -28,22 +28,19 @@ class compNode{
 * the only difference from the general Dijkstra Algorithm is
 * we stop the algorithm once we get the end-node from the prority queue
 */
-void pathfinder(string &actor_name1, string &actor_name2, ActorGraph &graph){
+void pathfinder(string &actor_name1, ActorGraph &graph){
 	string from = actor_name1;
-	string to = actor_name2;
 	priority_queue<ActorNode*, vector<ActorNode*>, compNode> q;
 	ActorNode* head;
 	int new_dist;
 	
 	graph.actor_map[from]->dist = 0;
-	//graph.actor_map[from]->pre = -1;
 	q.push(graph.actor_map[from]);
 
 	while (!q.empty()){
 		head = q.top();
 		q.pop();
 
-		if (head->name.compare(to)==0) return;
 		if (head->done){
 			continue;
 		}
@@ -61,32 +58,6 @@ void pathfinder(string &actor_name1, string &actor_name2, ActorGraph &graph){
 		}
 	}
 }
-
-/*use to write the path between two nodes
-* use a vector track to temporary store the path
-*/
-void writepath(string &from, string &to, ofstream& out, ActorGraph &graph){
-	ActorNode *end;
-	ActorNode *start;
-
-	end = graph.actor_map[to];
-	start = graph.actor_map[from];
-	vector<ActorNode*> track;
-	
-	while (end != start){
-	        track.push_back(end);
-		end = end->pre;
-	}
-	track.push_back(end);
-	
-	for (int i = track.size() - 1; i > 0; i--) {
-		out <<'('<< track[i] -> name<<")--[" <<track[i] -> adjacent[track[i-1]]->title<< "#@"
-		<<track[i] -> adjacent[track[i-1]]->year << "]-->";
-	}
-	out <<'('<<track[0]->name<<')'<<endl;
-}
-
-
 
 int main(int argc, char** argv){
 	char ifweighted = *argv[2];
@@ -112,8 +83,6 @@ int main(int argc, char** argv){
 	if (outfile.is_open());
 	else cout << "error in opening outfile" << endl;
 	
-	outfile<<"(actor)--[movie#@year]-->(actor)--..."<<endl;
-	
 	// read pair file and do a Dijkstra algorithm to search for the shortest distance for every pair
 	//and write the result to the output file
 	while (infile)
@@ -128,35 +97,24 @@ int main(int argc, char** argv){
 			have_header = true;
 			continue;
 		}
-
-		istringstream ss(s);
-		vector <string> record;
-                
-		while (ss){
-                           
-			string next;
-                        
-			//get the next string before hitting a tab character and put it in 'next'
-			if (!getline(ss, next, '\t')) break;
-                           
-			record.push_back(next);
-                      
-                       // cout<<next<<endl;
-		}
-                
-		if (record.size() != 2){
-			// we should have exactly 2 columns
-			continue;
-		}
-
-		string actor_name1(record[0]);
-		string actor_name2(record[1]);
-
-		// we have an actor/movie relationship
-		pathfinder(actor_name1, actor_name2, graph);
-		writepath(actor_name1, actor_name2, outfile, graph);
-                graph.MakeUpdate();
-                
+                string actor_name(s);
+                 if(graph.actor_map.find(actor_name) == graph.actor_map.end()){
+                    continue;
+                 }
+                 
+           /* for(int i=record.size()-1;i>0;i--){
+                 cout<<record[i]<<endl;
+           }*/
+                 float total_length=0;
+                 float average_length=0;
+              pathfinder(actor_name, graph);
+              for (auto it = graph.actor_map.begin(); it != graph.actor_map.end(); ++it){
+                total_length+=it->second->dist;
+             }
+             average_length = total_length/(graph.actor_map.size()-1);
+             
+             outfile<<"Average length to "<<actor_name<<" is "<< average_length<<endl;
+             graph.MakeUpdate();
 	}
          if (!infile.eof())
 	{
@@ -165,4 +123,5 @@ int main(int argc, char** argv){
 	}
 	infile.close();
         outfile.close();
+
 }

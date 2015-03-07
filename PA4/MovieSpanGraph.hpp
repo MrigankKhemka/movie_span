@@ -34,7 +34,10 @@ public:
   unordered_map<string,int> actor_map;
   unordered_map<string,Movie*> movie_map;
   vector<int>actorSet;
+  vector<int>actorSetSize;
   vector<Movie*>unincludedMovie;
+  
+  int actorNum = 0;
   
   
   /** You can modify this method definition as you wish
@@ -46,14 +49,12 @@ public:
    *
    * return true if file was loaded sucessfully, false otherwise
    */
-  bool loadFromFile(const char* in_filename, bool use_weighted_edges);
+  bool loadFromFile(const char* in_filename);
   
-  //used to build the directed edges between all ActorNodes 
-  //between every ActorNode pairs who appeared in the same movie
-  int getSetIndex(int a);
+
+  int getRoot(int a);
   
-  // a function used to update the dist, pre of each ActorNode 
-  //in the ActorGraph after one search for an actor-pair 
+
   void unionSet(int a, int b);
   
   ~MovieSpanGraph() { 

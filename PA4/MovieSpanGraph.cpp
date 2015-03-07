@@ -16,19 +16,12 @@
 #include <iostream>
 #include <sstream>
 #include <string>
-#include "ActorGraph.hpp"
-#include "Movie.hpp"
-#include <unordered_map>
+#include "MovieSpanGraph.hpp"
 
 using namespace std;
 
 MovieSpanGraph::MovieSpanGraph(void) {}
 
-void MovieSpanGraph::MakeUpdate(){
- for (auto it = actor_map.begin(); it != actor_map.end(); ++it){
-
-   }
-}
 
 bool MovieSpanGraph::loadFromFile(const char* in_filename)
 {
@@ -74,13 +67,14 @@ bool MovieSpanGraph::loadFromFile(const char* in_filename)
 		string actor_name(record[0]);
 		string movie_index(record[1]+record[2]);
 		int movie_year = stoi(record[2]);
-        string movie_title = record[1];
+                string movie_title = record[1];
 
 
                /*check if the read in actor_name has been saved in the actor_map, if not, insert it to the actor_map*/
 		if (actor_map.find(actor_name) == actor_map.end()) {
 			actor_map.emplace(actor_name, actorIndex);
 			actorSet.push_back(actorIndex);
+			actorSetSize.push_back(1);
 			actorIndex++;
 		}
 
@@ -97,7 +91,7 @@ bool MovieSpanGraph::loadFromFile(const char* in_filename)
                 /*push actor_name to the cast vector of the Movie named in movie_index in the movie_map*/
 		movie_map[movie_index]->cast.push_back(actor_name);
 	}
-
+        actorNum = actorIndex;
 	if (!infile.eof())
 	{
 		cerr << "Failed to read " << in_filename << "!\n";
@@ -108,11 +102,26 @@ bool MovieSpanGraph::loadFromFile(const char* in_filename)
 	return true;
 }
 
-int MovieSpanGraph::getSetIndex(int a){
-
+int MovieSpanGraph::getRoot(int a){
+  int cur =a;
+  while(cur != actorSet[cur]){
+    actorSet[cur] = actorSet[actorSet[cur]];
+    cur = actorSet[cur];
+  }
+  return cur;
 }
 
 void MovieSpanGraph::unionSet(int a, int b){
-
+  int rootA = getRoot(a);
+  int rootB = getRoot(b);
+  if (rootA == rootB);
+  else if(actorSetSize[rootA]<actorSetSize[rootB]){
+    actorSet[rootA] = rootB;
+    actorSetSize[rootB]++;
+  }
+  else{
+    actorSet[rootB] = rootA;
+    actorSetSize[rootA]++;
+  }
 }
 
