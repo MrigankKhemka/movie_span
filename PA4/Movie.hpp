@@ -29,7 +29,7 @@ using namespace std;
 			  int weight;
 			  int year;
 			  string index;
-                          string title;
+              string title;
 
 			  Movie(string index, int year, int weight,string title) : index(index), weight(weight), year(year),title(title){ }
 
