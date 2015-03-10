@@ -91,7 +91,7 @@ bool MovieSpanGraph::loadFromFile(const char* in_filename)
                 /*push actor_name to the cast vector of the Movie named in movie_index in the movie_map*/
 		movie_map[movie_index]->cast.push_back(actor_name);
 	}
-        actorNum = actorIndex;
+		setNum = actorIndex;
 	if (!infile.eof())
 	{
 		cerr << "Failed to read " << in_filename << "!\n";
@@ -117,11 +117,13 @@ void MovieSpanGraph::unionSet(int a, int b){
   if (rootA == rootB);
   else if(actorSetSize[rootA]<actorSetSize[rootB]){
     actorSet[rootA] = rootB;
-    actorSetSize[rootB]++;
+    actorSetSize[rootB]+= actorSetSize[rootA];
+	setNum--;
   }
   else{
     actorSet[rootB] = rootA;
-    actorSetSize[rootA]++;
+    actorSetSize[rootA]+=actorSetSize[rootB];
+	setNum--;
   }
 }
 

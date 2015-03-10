@@ -77,17 +77,16 @@ bool ActorGraph::loadFromFile(const char* in_filename, bool use_weighted_edges)
 		string actor_name(record[0]);
 		string movie_index(record[1]+record[2]);
 		int movie_year = stoi(record[2]);
-                string movie_title = record[1];
+        string movie_title = record[1];
 
 
-               /*check if the read in actor_name has been saved in the actor_map, if not, insert it to the actor_map*/
+        /*check if the read in actor_name has been saved in the actor_map, if not, insert it to the actor_map*/
 		if (actor_map.find(actor_name) == actor_map.end()) {
 			ActorNode* actor = new ActorNode(actor_name);
 			actor_map.emplace(actor_name, actor);
 		}
-
   
-              /*check if the read in movie_index has been saved in the movie_map, if not, insert it to the movie_map*/
+        /*check if the read in movie_index has been saved in the movie_map, if not, insert it to the movie_map*/
 		if (movie_map.find(movie_index) == movie_map.end()) {
 			if (use_weighted_edges){
 				movie = new Movie(movie_index, movie_year, 2015 - movie_year + 1, movie_title);
