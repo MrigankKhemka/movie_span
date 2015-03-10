@@ -37,8 +37,9 @@ public:
   vector<int>actorSetSize;
   vector<Movie*>unincludedMovie;
   
-  int actorNum = 0;
-  
+  //int actorNum = 0;
+  int setNum = 0;
+    
   
   /** You can modify this method definition as you wish
    *

@@ -37,13 +37,11 @@ int main(int argc, char** argv){
 
 	outfile << "Actor/Actress	Movie	Year" << endl;
 
-	int setNumber = graph.actorNum;
-
 	/*for(int i= 0;i<graph.actorSet.size();i++){
 		 cout<<i<<": "<<graph.actorSet[i] <<endl;
 		 }*/
 
-	while (setNumber > 1){
+	while (graph.setNum > 1){
 		int setcount = 0;
 		int selectedMovieIndex;
 
@@ -76,12 +74,6 @@ int main(int argc, char** argv){
 			int actorIndex1 = graph.actor_map[selectedMovie->cast[i]];
 			int actorIndex2 = graph.actor_map[selectedMovie->cast[i + 1]];
 			graph.unionSet(actorIndex1, actorIndex2);
-		}
-
-		setNumber = 0;
-		for (int i = 0; i < graph.actorSet.size(); i++){
-			if (graph.getRoot(i) == i)
-				setNumber++;
 		}
 
 		//cout << setNumber << endl;

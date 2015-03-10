@@ -84,8 +84,7 @@ int main(int argc, char** argv){
 	else cout << "error in opening outfile" << endl;
 	
 	// read pair file and do a Dijkstra algorithm to search for the shortest distance for every pair
-	//and write the result to the output file
-  
+
 	while (infile)
 	{		
 		string s;
@@ -99,30 +98,35 @@ int main(int argc, char** argv){
 			have_header = true;
 			continue;
 		}
-                string actor_name(s);
-           
-             if(graph.actor_map.find(actor_name) == graph.actor_map.end()){
-                   cout<<"node cannot find: "<<actor_name<<"&&"<<endl;
-                    continue;
-                 }
-     
-                 float total_length=0;
-                 float average_length=0;
-                pathfinder(actor_name, graph);
-              for (auto it = graph.actor_map.begin(); it != graph.actor_map.end(); ++it){
-                total_length+=it->second->dist;
-             }
-             average_length = total_length/(graph.actor_map.size()-1);
+		
+		istringstream ss(s);
+		string actor_name;
+		getline(ss, actor_name, '\t');
+		
+        
+        if(graph.actor_map.find(actor_name) == graph.actor_map.end()){
+			cout<<"being ignored "<<actor_name<<"&"<<endl;
+            continue;
+        }
+                 
+        float total_length=0;
+        float average_length=0;
+        pathfinder(actor_name, graph);
+        for (auto it = graph.actor_map.begin(); it != graph.actor_map.end(); ++it){
+            total_length+=it->second->dist;
+        }
+        average_length = total_length/(graph.actor_map.size()-1);
              
-             outfile<<"Average distance to "<<actor_name<<" is "<< average_length<<endl;
-             graph.MakeUpdate();
+        outfile<<"Average length to "<<actor_name<<" is "<< average_length<<endl;
+        graph.MakeUpdate();
 	}
-         if (!infile.eof())
+	
+    if (!infile.eof())
 	{
 		cerr << "Failed to read " << argv[1] << "!\n";
 		return false;
 	}
 	infile.close();
-        outfile.close();
+    outfile.close();
 
 }
