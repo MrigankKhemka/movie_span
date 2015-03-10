@@ -73,7 +73,7 @@ int main(int argc, char** argv){
 	
 	//create the graph by link all the nodes
 	graph.createGraph();
-
+         
 	bool have_header = false;
 	ifstream infile(findpair, ios::in);
 	ofstream outfile(output, ios::out);
@@ -85,6 +85,7 @@ int main(int argc, char** argv){
 	
 	// read pair file and do a Dijkstra algorithm to search for the shortest distance for every pair
 	//and write the result to the output file
+  
 	while (infile)
 	{		
 		string s;
@@ -94,26 +95,26 @@ int main(int argc, char** argv){
 
 		if (!have_header){
 			// skip the header
+                       
 			have_header = true;
 			continue;
 		}
                 string actor_name(s);
-                 if(graph.actor_map.find(actor_name) == graph.actor_map.end()){
+           
+             if(graph.actor_map.find(actor_name) == graph.actor_map.end()){
+                   cout<<"node cannot find: "<<actor_name<<"&&"<<endl;
                     continue;
                  }
-                 
-           /* for(int i=record.size()-1;i>0;i--){
-                 cout<<record[i]<<endl;
-           }*/
+     
                  float total_length=0;
                  float average_length=0;
-              pathfinder(actor_name, graph);
+                pathfinder(actor_name, graph);
               for (auto it = graph.actor_map.begin(); it != graph.actor_map.end(); ++it){
                 total_length+=it->second->dist;
              }
              average_length = total_length/(graph.actor_map.size()-1);
              
-             outfile<<"Average length to "<<actor_name<<" is "<< average_length<<endl;
+             outfile<<"Average distance to "<<actor_name<<" is "<< average_length<<endl;
              graph.MakeUpdate();
 	}
          if (!infile.eof())
