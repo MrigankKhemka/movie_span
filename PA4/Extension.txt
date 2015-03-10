@@ -1,0 +1,28 @@
+Extension
+Fangfei Huo
+Xinyu Qian
+(1) Extension.cpp solved the problem of finding out the average distance to an actor from all other actors in the movie_casts.tsv
+
+(2)Implement:
+To find the average distance to an actor, we firstly used Dijkstra Algorithm to find the shortest paths to an actor node from all other actor nodes in the actor graph. 
+Then, we add up all those distances to get the total distance.
+Finally, divide the total distance by the number which equals to size of actor nodes in the graph minus one to get average distance.
+
+(3)Test
+It will take 4 command-line arguments:
+1. The first is a text file containing the movie casts n the same format as movie_casts.tsv. 
+2. The second is a lower-case character equal to u or w - "u" means build the graph with un-weighted edges, while "w" means build the graph with weighted edges where weights are computed with the formula described above.
+3. The third is a text file containing name of actors for which you want to compute the average distance to. The first line is a header, then each row contains the names of only one actor followed by a single tab character.
+4. The fourth argument is an output text file containing the average distance to the actor given in the input file in argument 3.
+An example of command line is “ ./extension movie_casts.tsv u test_extension testout”
+As the moive_casts.tsv file is too large, we firstly use a small test file to test our algorithm. 
+This small test file contains five actors called A, B, C, D, E and ten movies casted by these actors. 
+And their relationships can be expressed manually by the graph1(graph1 is saved in the graph1.jpg):
+
+By using the command “ ./extension small_movie_casts.tsv u small_ test_extension testout”, we computed the average distance to A, B ,C D, E.
+The results are 1.25, 1.25, 1.25, 1, 1.25 which is consistent with the graph we constructed. 
+Then we tested the actors in the file movie_casts.tsv given by the instructor.
+We tested six actors :BACON, KEVIN (I), HOUNSOU, DJIMON, KIDMAN, NICOLE, WILLIS, BRUCE, GIAMATTI, PAUL, 50 CENT. 
+And the average distance to them are 
+1.9535,1.97219,1.94234,1.86882,1.89078,1.97651 using un-weighted graph. 
+When using weighted graph, average distance to them are 9.72263,8.02052,9.19774,7.75078,8.24828,9.01272.	
