@@ -3,8 +3,9 @@
 *date:2015.3.1
 *cse 100 assignment 4
 *
-*use Dijkstra Algorithm to compute the shortest path between to nodes
-*after each compute initial the dist,pre,done to make the graph get ready for the next search
+*use Dijkstra Algorithm to compute the shortest path and dist from a source node to all other nodes 
+* use these dist to compute the total distance to a source node and divide them by size of the number
+* which equals to size of actor nodes in the graph minus one to get average distance.
 */
 
 #include <iostream>
@@ -83,7 +84,7 @@ int main(int argc, char** argv){
 	if (outfile.is_open());
 	else cout << "error in opening outfile" << endl;
 	
-	// read pair file and do a Dijkstra algorithm to search for the shortest distance for every pair
+	// read the actor_nodes to be searched for their average distance 
 
 	while (infile)
 	{		
@@ -112,6 +113,7 @@ int main(int argc, char** argv){
         float total_length=0;
         float average_length=0;
         pathfinder(actor_name, graph);
+		//use the dist in the actor-nodes in the actor_map to compute the total distance to an actor node
         for (auto it = graph.actor_map.begin(); it != graph.actor_map.end(); ++it){
             total_length+=it->second->dist;
         }
