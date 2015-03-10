@@ -2,6 +2,7 @@
 *Name:Xinyu Qian, Fangfei Huo
 *date:2015.3.8
 *cse 100 assignment 4
+*
 */
 
 #include <iostream>
