@@ -1,3 +1,8 @@
+/*
+*Name:Xinyu Qian, Fangfei Huo
+*date:2015.3.8
+*cse 100 assignment 4
+*/
 
 #include <iostream>
 #include <string>
@@ -8,9 +13,7 @@
 
 using namespace std;
 
-/*use to write the path between two nodes
-* use a vector track to temporary store the path
-*/
+/*output moviespan*/
 void writeMovieSpan(ofstream &outfile, vector<Movie*> &movieOut){
 
 	for (int i = 0; i < movieOut.size(); i++) {
@@ -37,14 +40,11 @@ int main(int argc, char** argv){
 
 	outfile << "Actor/Actress	Movie	Year" << endl;
 
-	/*for(int i= 0;i<graph.actorSet.size();i++){
-		 cout<<i<<": "<<graph.actorSet[i] <<endl;
-		 }*/
-
 	while (graph.setNum > 1){
 		int setcount = 0;
 		int selectedMovieIndex;
-
+		
+		//choose the movie for the each greedy algorithm's iteration
 		for (int i = 0; i < graph.unincludedMovie.size(); i++){
 			int curSetcount = 0;
 			unordered_set<int> actorSetInMovie;
@@ -55,30 +55,30 @@ int main(int argc, char** argv){
 			}
 			curSetcount = actorSetInMovie.size();
 
-			//cout << "movie" << graph.unincludedMovie[i]->title << endl;
-			//cout << "current setcount " << curSetcount << endl;
 			if (curSetcount > setcount){
 				selectedMovieIndex = i;
 				setcount = curSetcount;
 			}
 		}
-
+		
+		//put the selected movie into the movieOut vector and erase it from unincludedMovie vector
 		Movie* selectedMovie = graph.unincludedMovie[selectedMovieIndex];
 		movieOut.push_back(selectedMovie);
+    	graph.unincludedMovie.erase(graph.unincludedMovie.begin() + selectedMovieIndex);
 
-		//cout <<"selected movie = "<< selectedMovie->title << endl;
-
-		graph.unincludedMovie.erase(graph.unincludedMovie.begin() + selectedMovieIndex);
-
+		//union all the actor in the selected movie
 		for (int i = 0; i < selectedMovie->cast.size() - 1; i++) {
 			int actorIndex1 = graph.actor_map[selectedMovie->cast[i]];
 			int actorIndex2 = graph.actor_map[selectedMovie->cast[i + 1]];
 			graph.unionSet(actorIndex1, actorIndex2);
 		}
 
-		//cout << setNumber << endl;
 	}
 
 	writeMovieSpan(outfile, movieOut);
+	
+	//out put the size of moviespan
 	cout << movieOut.size()<< endl;
+	
+	outfile.close();
 }

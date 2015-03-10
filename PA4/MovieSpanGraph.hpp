@@ -1,19 +1,22 @@
 /*
 *Name:Xinyu Qian, Fangfei Huo
-*date:2015.3.1
+*date:2015.3.9
 *cse 100 assignment 4
 *
-*a class for ActorGraph,which actor are the nodes of the graph, 
-*the movies which are casted by actor pairs are the edges between these two actors 
+* a class for moviespan containing all the disjoint sets and movie-actor relationships
 *
 * Description of its member:
-* unordered_map actor_map: a hash table contains all names of actors appeared in the input file and the pointers to those ActorNodes, 
-*                         the key for hash table is actor name, and the content is ActorNode*
+* unordered_map actor_map: a hash table contains maps all the actors to its index
 * unordered_map movie_map: a hash table contains all names of movies appeared in the input file and the pointers to Movie, 
 *                         the key for hash table is movie name, and the content is Movie*
-* createGraph():a function used to build the directed edges between all ActorNodes between every ActorNode pairs who appeared in the same movie
-* we stored the least weighted movies between actor-pairs to in each ActorNode's adjacent map.
-* MakeUpdate(): a function used to update the dist, pre of each ActorNode in the ActorGraph after one search for an actor-pair 
+* vector<int>actorSet: the vector representing the disjoint set of actors
+* vector<int>actorSetSize: the vector indicating the size(weight) of each disjoint set
+* vector<Movie*>unincludedMovie: the vector of all the movies that are not selected for the movie cover
+* int setNum: the total number of disjoint actor sets
+*
+* bool loadFromFile: load data from input files, return true if successfully loaded, otherwise return false
+* int getRoot(int a): return the root of an actor,path compression included, i.e. return which disjoint set the actor is in
+* void unionSet(int a, int b): union two disjoint sets
 *             
 */
 #ifndef MOVIESPANGRAPH_HPP
@@ -30,32 +33,20 @@ class MovieSpanGraph {
 public:
   MovieSpanGraph(void);
 
-  // Maybe add some more methods here
   unordered_map<string,int> actor_map;
   unordered_map<string,Movie*> movie_map;
   vector<int>actorSet;
   vector<int>actorSetSize;
   vector<Movie*>unincludedMovie;
-  
-  //int actorNum = 0;
   int setNum = 0;
     
-  
-  /** You can modify this method definition as you wish
-   *
-   * Load the graph from a tab-delimited file of actor->movie relationships.
-   *
-   * in_filename - input filename
-   * use_weighted_edges - if true, compute edge weights as 1 + (2015 - movie_year), otherwise all edge weights will be 1
-   *
-   * return true if file was loaded sucessfully, false otherwise
-   */
+  //load data from input files, return true if successfully loaded, otherwise return false
   bool loadFromFile(const char* in_filename);
   
-
+  //return the root of an actor, path compression included, i.e. return which disjoint set the actor is in like find()
   int getRoot(int a);
   
-
+  //union two disjoint sets
   void unionSet(int a, int b);
   
   ~MovieSpanGraph() { 
