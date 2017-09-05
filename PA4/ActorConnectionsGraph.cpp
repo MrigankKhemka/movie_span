@@ -3,7 +3,7 @@
 *date:2015.3.8
 *cse 100 assignment 4
 *
-* a class for moviespan containing all the disjoint sets and movie-actor relationships
+* a class for actorconnections containing all the disjoint sets and movie-actor relationships
 *
 * bool loadFromFile: load data from input files, return true if successfully loaded, otherwise return false
 * int getRoot(int a): return the root of an actor,path compression included, i.e. return which disjoint set the actor is in
@@ -14,14 +14,14 @@
 #include <iostream>
 #include <sstream>
 #include <string>
-#include "MovieSpanGraph.hpp"
+#include "ActorConnectionsGraph.hpp"
 
 using namespace std;
 
-MovieSpanGraph::MovieSpanGraph(void) {}
+ActorConnectionsGraph::ActorConnectionsGraph(void) {}
 
 //load data from input files, return true if successfully loaded, otherwise return false
-bool MovieSpanGraph::loadFromFile(const char* in_filename)
+bool ActorConnectionsGraph::loadFromFile(const char* in_filename)
 {
 	// Initialize the file stream
 	ifstream infile(in_filename);
@@ -105,7 +105,7 @@ bool MovieSpanGraph::loadFromFile(const char* in_filename)
 }
 
 //return the root of an actor,path compression included, i.e. return which disjoint set the actor is in
-int MovieSpanGraph::getRoot(int a){
+int ActorConnectionsGraph::getRoot(int a){
   int cur =a;
   
   
@@ -119,7 +119,7 @@ int MovieSpanGraph::getRoot(int a){
 }
 
 //union two disjoint sets
-void MovieSpanGraph::unionSet(int a, int b){
+void ActorConnectionsGraph::unionSet(int a, int b){
   int rootA = getRoot(a);
   int rootB = getRoot(b);
   
