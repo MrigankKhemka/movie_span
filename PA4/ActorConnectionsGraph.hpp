@@ -29,9 +29,9 @@
 
 using namespace std;
 
-class MovieSpanGraph {
+class ActorConnectionsGraph {
 public:
-  MovieSpanGraph(void);
+  ActorConnectionsGraph(void);
 
   unordered_map<string,int> actor_map;
   unordered_map<string,Movie*> movie_map;
@@ -49,7 +49,7 @@ public:
   //union two disjoint sets
   void unionSet(int a, int b);
   
-  ~MovieSpanGraph() { 
+  ~ActorConnectionsGraph() { 
     for (auto it = movie_map.begin(); it != movie_map.end(); ++it){
 		delete it->second;
 	}
