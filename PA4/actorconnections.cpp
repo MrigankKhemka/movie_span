@@ -9,13 +9,13 @@
 #include <string>
 #include <fstream>
 #include <sstream>
-#include "MovieSpanGraph.hpp"
+#include "ActorConnectionsGraph.hpp"
 #include <unordered_set>
 
 using namespace std;
 
-/*output moviespan*/
-void writeMovieSpan(ofstream &outfile, vector<Movie*> &movieOut){
+/*output actorconnections*/
+void writeActorConnections(ofstream &outfile, vector<Movie*> &movieOut){
 
 	for (int i = 0; i < movieOut.size(); i++) {
 		for (int j = 0; j < movieOut[i]->cast.size(); j++)
@@ -27,7 +27,7 @@ int main(int argc, char** argv){
 
 	string output = argv[2];
 
-	MovieSpanGraph graph;
+	ActorConnectionsGraph graph;
 	vector<Movie*> movieOut;
 
 	//load actor-movie data
@@ -76,9 +76,9 @@ int main(int argc, char** argv){
 
 	}
 
-	writeMovieSpan(outfile, movieOut);
+	writeActorConnections(outfile, movieOut);
 	
-	//out put the size of moviespan
+	//out put the size of actorconnections
 	cout << movieOut.size()<< endl;
 	
 	outfile.close();
